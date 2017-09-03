@@ -1,11 +1,14 @@
-[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingComputerNameHardcoded', '')] 
-param()
-
-Configuration AllowRemoteDesktopAdminConnections
+Configuration Example
 {
+    param
+    (
+        [Parameter()]
+        [System.String[]]
+        $NodeName = 'localhost'
+    )
     Import-DscResource -Module xRemoteDesktopAdmin, xNetworking
 
-    Node ('localhost')
+    Node $NodeName
     {        
         xRemoteDesktopAdmin RemoteDesktopSettings
         {
@@ -15,16 +18,12 @@ Configuration AllowRemoteDesktopAdminConnections
 
         xFirewall AllowRDP
         {
-            Name = 'DSC - Remote Desktop Admin Connections'
-            DisplayGroup = "Remote Desktop"
+            DisplayName = 'DSC - Remote Desktop Admin Connections'
+            Name = "Remote Desktop"
             Ensure = 'Present'
-            State = 'Enabled'
-            Access = 'Allow'
+            Enabled = 'True'
+            Action = 'Allow'
             Profile = 'Domain'
         }
     }
 }
-
-$workingdir = 'C:\RDP\MOF'
-
-# Create MOFAllowRemoteDesktopAdminConnections -OutputPath $workingdir# Apply MOFStart-DscConfiguration -ComputerName 'localhost' -wait -force -verbose -path $workingdir

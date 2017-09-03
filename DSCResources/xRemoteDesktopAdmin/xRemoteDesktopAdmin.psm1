@@ -11,46 +11,46 @@ UserAuthentication [string] translates to reg value UserAuthentication [Int] - A
 #>
 
 #region GET RDP Settings
-function Get-TargetResource
-{
+function Get-TargetResource {
     [CmdletBinding()]
     [OutputType([System.Collections.Hashtable])]
     param
     (
-        [Parameter(Mandatory)]
-        [ValidateSet("Present","Absent")]
+        [Parameter(Mandatory = $true)]
+        [ValidateSet("Present", "Absent")]
         [System.String]$Ensure,
 
+        [Parameter()]
         [ValidateSet("NonSecure", "Secure")]
-        [System.String]$UserAuthentication
+        [System.String]$UserAuthentication = "Secure"
     )
 
     switch ($Ensure) {
         "Present" {[System.Byte]$fDenyTSConnections = 0}
         "Absent" {[System.Byte]$fDenyTSConnections = 1}
-        }
+    }
 
     switch ($UserAuthentication) {
         "NonSecure" {[System.Byte]$UserAuthentication = 0}
         "Secure" {[System.Byte]$UserAuthentication = 1}
-        }    
-
+    }    
+    Write-Verbose -Message 'Getting existing registry settings'
     $GetDenyTSConnections = Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Terminal Server" -Name "fDenyTSConnections"
     $GetUserAuth = Get-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication"
 
-        $returnValue = @{
-            Ensure = switch ($GetDenyTSConnections.fDenyTSConnections) {
-                                    0 {"Present"}
-                                    1 {"Absent"}
-                                    }
-            UserAuthentication =     switch ($GetUserAuth.UserAuthentication) {
-                                        0 {"NonSecure"}
-                                        1 {"Secure"}
-                                        } 
-            }
+    $returnValue = @{
+        Ensure             = switch ($GetDenyTSConnections.fDenyTSConnections) {
+            0 {"Present"}
+            1 {"Absent"}
+        }
+        UserAuthentication = switch ($GetUserAuth.UserAuthentication) {
+            0 {"NonSecure"}
+            1 {"Secure"}
+        } 
+    }
     
     $returnValue
-    }
+}
 
 #  Get-TargetResource 'Present' 'Secure' -Verbose
 #  Expectation is a hashtable with configuration of the machine.
@@ -58,40 +58,42 @@ function Get-TargetResource
 #endregion
 
 #region SET RDP Settings
-function Set-TargetResource
-{
+function Set-TargetResource {
     [CmdletBinding()]
     param
     (
-        [Parameter(Mandatory)]
-        [ValidateSet("Present","Absent")]
+        [Parameter(Mandatory = $true)]
+        [ValidateSet("Present", "Absent")]
         [System.String]$Ensure,
 
+        [Parameter()]
         [ValidateSet("NonSecure", "Secure")]
-        [System.String]$UserAuthentication
+        [System.String]$UserAuthentication = "Secure"
     )
 
     switch ($Ensure) {
         "Present" {[System.Byte]$fDenyTSConnections = 0}
         "Absent" {[System.Byte]$fDenyTSConnections = 1}
-        }
+    }
 
     switch ($UserAuthentication) {
         "NonSecure" {[System.Byte]$UserAuthentication = 0}
         "Secure" {[System.Byte]$UserAuthentication = 1}
-        }  
+    }  
 
     $GetEnsure = (Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Terminal Server" -Name "fDenyTSConnections").fDenyTSConnections
-    $GetUserAuthentiation = (Get-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication").UserAuthentication
+    $GetUserAuthentication = (Get-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication").UserAuthentication
     
     #The make it so section
     if ($fDenyTSConnections -ne $GetEnsure) {
         Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server'-name "fDenyTSConnections" -Value $fDenyTSConnections        
-        }
+        Write-Verbose -Message 'Setting fDenyTSConnections Registry Key'
+    }
     if ($UserAuthentication -ne $GetUserAuthentication) {
         Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value $UserAuthentication
-        }
+        Write-Verbose -Message 'Setting UserAuthenication Registry Key'
     }
+}
 
 #  Set-TargetResource 'Present' 'Secure' -Verbose
 #  Expectation is the computer will be configured to accept secure RDP connections.  To verify, right click on the Windows button and open System - Remote Settings.
@@ -99,53 +101,51 @@ function Set-TargetResource
 #endregion
 
 #region TEST RDP Settings
-function Test-TargetResource
-{
+function Test-TargetResource {
     [CmdletBinding()]
     [OutputType([System.Boolean])]
     param
     (
-        [Parameter(Mandatory)]
-        [ValidateSet("Present","Absent")]
+        [Parameter(Mandatory = $true)]
+        [ValidateSet("Present", "Absent")]
         [System.String]$Ensure,
 
+        [Parameter()]
         [ValidateSet("NonSecure", "Secure")]
-        [System.String]$UserAuthentication
+        [System.String]$UserAuthentication = "Secure"
     )
 
     switch ($Ensure) {
         "Present" {[System.Byte]$fDenyTSConnections = 0}
         "Absent" {[System.Byte]$fDenyTSConnections = 1}
-        }
+    }
 
     switch ($UserAuthentication) {
-        "NonSecure" {[System.Byte]$UserAuthentication = 0}
-        "Secure" {[System.Byte]$UserAuthentication = 1}
-        } 
+        "NonSecure" {[System.Byte]$byteUserAuthentication = 0}
+        "Secure" {[System.Byte]$byteUserAuthentication = 1}
+    } 
 
     $GetfDenyTSConnections = (Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Terminal Server" -Name "fDenyTSConnections").fDenyTSConnections
-    $GetUserAuthentiation = (Get-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication").UserAuthentication
+    $GetUserAuthentication = (Get-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -Name "UserAuthentication").UserAuthentication
     
     $bool = $false
 
-    if ($fDenyTSConnections -eq $GetfDenyTSConnections -and $UserAuthentication -eq $GetUserAuthentiation)
-        {
-            Write-Verbose "RDP settings are matching the desired state"
-            $bool = $true
+    if ($fDenyTSConnections -eq $GetfDenyTSConnections -and $byteUserAuthentication -eq $GetUserAuthentication) {
+        Write-Verbose "RDP settings are matching the desired state"
+        $bool = $true
+    }
+    else {
+        Write-Verbose "RDP settings are Non-Compliant!"
+        if ($fDenyTSConnections -ne $GetfDenyTSConnections) {
+            Write-Verbose "DenyTSConnections settings are non-compliant, Value should be $fDenyTSConnections - Detected value is: $GetfDenyTSConnections"   
         }
-    else
-        {
-            Write-Verbose "RDP settings are Non-Compliant!"
-            if ($fDenyTSConnections -ne $GetfDenyTSConnections) {
-                    Write-Verbose "DenyTSConnections settings are non-compliant, Value should be $fDenyTSConnections - Detected value is: $GetfDenyTSConnections"   
-                    }
-            if ($UserAuthentication -ne $GetUserAuthentiation) {
-                    Write-Verbose "UserAuthentication settings are non-compliant, Value should be $UserAuthentication - Detected value is: $GetUserAuthentiation" 
-                    }
+        if ($byteUserAuthentication -ne $GetUserAuthentication) {
+            Write-Verbose "UserAuthentication settings are non-compliant, Value should be $UserAuthentication - Detected value is: $GetUserAuthentication" 
         }
+    }
     
     $bool
-    }
+}
 
 #  Test-TargetResource 'Present' 'Secure' -Verbose
 #  Expectation is a true/false output based on whether the machine matches the declared configuration.
