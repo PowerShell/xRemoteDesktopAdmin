@@ -13,8 +13,8 @@ Please check out common DSC Resources [contributing guidelines](https://github.c
 
 ## Description
 
-The **xRemoteDesktopAdmin** module contains the **xRemoteDesktopAdmin** DSC Resource. 
-This DSC Resource allows you to configure remote desktop settings to either allow or prevent users to setup a remote desktop connection to a specific machine. 
+The **xRemoteDesktopAdmin** module contains the **xRemoteDesktopAdmin** DSC Resource.
+This DSC Resource allows you to configure remote desktop settings to either allow or prevent users to setup a remote desktop connection to a specific machine.
 In addition, it can optionally leverage the xPSDesiredStateConfiguration resources **xFirewall** and **xGroup**.
 This allows you to configure remote desktop settings and create the necessary firewall rules to allow a remote session and add a domain user to the local Remote Desktop Users group.
 
@@ -23,8 +23,8 @@ This allows you to configure remote desktop settings and create the necessary fi
 
 ### xRemoteDesktopAdmin
 
-* **Ensure**: Ensures that “remote connections to this computer” are allowed or disallowed: { Absent | Present }
-* **UserAuthentication**: Enables or disables “Network Level Authentication”. Valid values are:
+* **Ensure**: Ensures that ï¿½remote connections to this computerï¿½ are allowed or disallowed: { Absent | Present }
+* **UserAuthentication**: Enables or disables ï¿½Network Level Authenticationï¿½. Valid values are:
   * Secure
   * NonSecure
 
@@ -32,7 +32,10 @@ This allows you to configure remote desktop settings and create the necessary fi
 ## Versions
 
 ### Unreleased
-* Converted appveyor.yml to install Pester from PSGallery instead of from Chocolatey.
+
+* Update appveyor.yml to use the default template.
+* Added default template files .codecov.yml, .gitattributes, and .gitignore, and
+  .vscode folder.
 
 ### 1.1.0.0
 
@@ -45,7 +48,7 @@ xRemoteDesktopSessionHost
 
 ### 1.0.2.0
 
-* Update to correct issue in Set-TargetResource when checking Ensure 
+* Update to correct issue in Set-TargetResource when checking Ensure
 
 ### 1.0.0.0
 
@@ -62,7 +65,7 @@ This configuration configures the target system to allow for remote connections 
 ### [ExampleConfiguration-RemoteDesktopAdminWithUnEncryptedPassword.ps1](Examples/ExampleConfiguration-RemoteDesktopAdminWithUnEncryptedPassword.ps1)
 
 This configuration extends the previous configuration by adding a domain user to the local Remote Desktop Users group using a credential stored in clear text (for testing purposes only).
-Note: this Example requires the built-in **Group** resource. 
+Note: this Example requires the built-in **Group** resource.
 
 ### [ExampleConfiguration-RemoteDesktopAdminWithEncryptedPassword.ps1](Examples/ExampleConfiguration-RemoteDesktopAdminWithEncryptedPassword.ps1)
 
