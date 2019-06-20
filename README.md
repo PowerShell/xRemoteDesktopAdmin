@@ -1,60 +1,18 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/iwctay9q3t2c72r8/branch/master?svg=true)](https://ci.appveyor.com/project/PowerShell/xremotedesktopadmin/branch/master)
-
 # xRemoteDesktopAdmin
 
-The **xRemoteDesktopAdmin** module contains the **xRemoteDesktopAdmin** DSC resource for configuring remote desktop settings and the Windows firewall on a local or remote machine.
+The **xRemoteDesktopAdmin** module contains the **xRemoteDesktopAdmin** DSC resource for configuring Remote Desktop settings on a computer.
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
-
-## Contributing
-Please check out common DSC Resources [contributing guidelines](https://github.com/PowerShell/DscResource.Kit/blob/master/CONTRIBUTING.md).
-
-
-## Description
-
-The **xRemoteDesktopAdmin** module contains the **xRemoteDesktopAdmin** DSC Resource.
-This DSC Resource allows you to configure remote desktop settings to either allow or prevent users to setup a remote desktop connection to a specific machine.
-In addition, it can optionally leverage the xPSDesiredStateConfiguration resources **xFirewall** and **xGroup**.
-This allows you to configure remote desktop settings and create the necessary firewall rules to allow a remote session and add a domain user to the local Remote Desktop Users group.
-
 
 ## Resources
 
 ### xRemoteDesktopAdmin
 
-* **Ensure**: Ensures that �remote connections to this computer� are allowed or disallowed: { Absent | Present }
-* **UserAuthentication**: Enables or disables �Network Level Authentication�. Valid values are:
+* **Ensure**: Ensures that 'remote connections to this computer' are allowed or disallowed: { Absent | Present }
+* **UserAuthentication**: Enables or disables 'Network Level Authentication'. Valid values are:
   * Secure
   * NonSecure
-
-
-## Versions
-
-### Unreleased
-
-* Update appveyor.yml to use the default template.
-* Added default template files .codecov.yml, .gitattributes, and .gitignore, and
-  .vscode folder.
-
-### 1.1.0.0
-
-* Updated OutputType to System.Boolean for Test-TargetResource and removed for Set-TargetResource.
-xRemoteDesktopSessionHost
-
-### 1.0.3.0
-
-* Updated examples
-
-### 1.0.2.0
-
-* Update to correct issue in Set-TargetResource when checking Ensure
-
-### 1.0.0.0
-
-* Initial release with the following resource:
-    * xRemoteDesktopAdmin
-
 
 ## Examples
 
@@ -70,3 +28,31 @@ Note: this Example requires the built-in **Group** resource.
 ### [ExampleConfiguration-RemoteDesktopAdminWithEncryptedPassword.ps1](Examples/ExampleConfiguration-RemoteDesktopAdminWithEncryptedPassword.ps1)
 
 This configuration extends the previous configuration by adding a domain user to the local Remote Desktop Users group using certificates to encrypt credentials. Please refer to [this blog post](please refer to http://blogs.msdn.com/b/powershell/archive/2014/01/31/want-to-secure-credentials-in-windows-powershell-desired-state-configuration.aspx) for more info on how to use certificates to encrypt passwords.
+
+## Branches
+
+### master
+
+[![Build status](https://ci.appveyor.com/api/projects/status/iwctay9q3t2c72r8/branch/master?svg=true)](https://ci.appveyor.com/project/PowerShell/xActiveDirectory/branch/master)
+[![codecov](https://codecov.io/gh/PowerShell/xRemoteDesktopAdmin/branch/master/graph/badge.svg)](https://codecov.io/gh/PowerShell/xRemoteDesktopAdmin/branch/master)
+
+This is the branch containing the latest release -
+no contributions should be made directly to this branch.
+
+### dev
+
+[![Build status](https://ci.appveyor.com/api/projects/status/iwctay9q3t2c72r8/branch/dev?svg=true)](https://ci.appveyor.com/project/PowerShell/xRemoteDesktopAdmin/branch/dev)
+[![codecov](https://codecov.io/gh/PowerShell/xRemoteDesktopAdminy/branch/dev/graph/badge.svg)](https://codecov.io/gh/PowerShell/xRemoteDesktopAdmin/branch/dev)
+
+This is the development branch
+to which contributions should be proposed by contributors as pull requests.
+This development branch will periodically be merged to the master branch,
+and be released to [PowerShell Gallery](https://www.powershellgallery.com/).
+
+## Contributing
+
+Please check out common DSC Resource [contributing guidelines](https://github.com/PowerShell/DscResources/blob/master/CONTRIBUTING.md).
+
+## Change log
+
+A full list of changes in each version can be found in the [change log](CHANGELOG.md).
