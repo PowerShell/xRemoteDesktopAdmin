@@ -1,4 +1,4 @@
-[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingComputerNameHardcoded', '')] 
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingComputerNameHardcoded', '')]
 param()
 
 Configuration AllowRemoteDesktopAdminConnections
@@ -6,7 +6,7 @@ Configuration AllowRemoteDesktopAdminConnections
     Import-DscResource -Module xRemoteDesktopAdmin, xNetworking
 
     Node ('localhost')
-    {        
+    {
         xRemoteDesktopAdmin RemoteDesktopSettings
         {
            Ensure = 'Present'
@@ -27,4 +27,8 @@ Configuration AllowRemoteDesktopAdminConnections
 
 $workingdir = 'C:\RDP\MOF'
 
-# Create MOFAllowRemoteDesktopAdminConnections -OutputPath $workingdir# Apply MOFStart-DscConfiguration -ComputerName 'localhost' -wait -force -verbose -path $workingdir
+# Create MOF
+AllowRemoteDesktopAdminConnections -OutputPath $workingdir
+
+# Apply MOF
+Start-DscConfiguration -ComputerName 'localhost' -wait -force -verbose -path $workingdir
