@@ -1,4 +1,4 @@
-[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingComputerNameHardcoded', '')]�
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingComputerNameHardcoded', '')]
 param()
 
 Configuration AllowRemoteDesktopAdminConnections
