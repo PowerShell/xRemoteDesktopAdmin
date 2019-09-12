@@ -1,3 +1,9 @@
+# **THIS MODULE HAS BEEN DEPRECATED**
+
+It will no longer be released.
+Please use the 'RemoteDesktopAdmin' resource in [ComputerManagementDsc](https://github.com/PowerShell/ComputerManagementDsc)
+instead.
+
 [![Build status](https://ci.appveyor.com/api/projects/status/iwctay9q3t2c72r8/branch/master?svg=true)](https://ci.appveyor.com/project/PowerShell/xremotedesktopadmin/branch/master)
 
 # xRemoteDesktopAdmin
@@ -33,6 +39,8 @@ This allows you to configure remote desktop settings and create the necessary fi
 
 ### Unreleased
 
+* THIS MODULE HAS BEEN DEPRECATED. It will no longer be released.
+  Please use the 'RemoteDesktopAdmin' resource in ComputerManagementDsc instead.
 * Update appveyor.yml to use the default template.
 * Added default template files .codecov.yml, .gitattributes, and .gitignore, and
   .vscode folder.
