@@ -29,8 +29,8 @@ This allows you to configure remote desktop settings and create the necessary fi
 
 ### xRemoteDesktopAdmin
 
-* **Ensure**: Ensures that �remote connections to this computer� are allowed or disallowed: { Absent | Present }
-* **UserAuthentication**: Enables or disables �Network Level Authentication�. Valid values are:
+* **Ensure**: Ensures that `remote connections to this computer` are allowed or disallowed: { Absent | Present }
+* **UserAuthentication**: Enables or disables `Network Level Authentication`. Valid values are:
   * Secure
   * NonSecure
 
@@ -77,4 +77,4 @@ Note: this Example requires the built-in **Group** resource.
 
 ### [ExampleConfiguration-RemoteDesktopAdminWithEncryptedPassword.ps1](Examples/ExampleConfiguration-RemoteDesktopAdminWithEncryptedPassword.ps1)
 
-This configuration extends the previous configuration by adding a domain user to the local Remote Desktop Users group using certificates to encrypt credentials. Please refer to [this blog post](please refer to http://blogs.msdn.com/b/powershell/archive/2014/01/31/want-to-secure-credentials-in-windows-powershell-desired-state-configuration.aspx) for more info on how to use certificates to encrypt passwords.
+This configuration extends the previous configuration by adding a domain user to the local Remote Desktop Users group using certificates to encrypt credentials. Please refer to [this blog post](http://blogs.msdn.com/b/powershell/archive/2014/01/31/want-to-secure-credentials-in-windows-powershell-desired-state-configuration.aspx) for more info on how to use certificates to encrypt passwords.
